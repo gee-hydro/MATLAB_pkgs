@@ -1,8 +1,13 @@
 %% set plots fontsize, fontfamily, linewidths using handle.
-function plotsetting(xlab, ylab)
+function plotsetting(xlab, ylab, axs)
     %% set plots fontsize, fontfamily, linewidths using handle.
-    axes_hl = findobj(0, 'type', 'axes');
-    font = 'Times New Roman';%'微软雅黑';
+    if nargin >= 3
+        axes_hl= axs;
+    else
+        axes_hl = findobj(0, 'type', 'axes');
+    end
+    
+    % font = 'Times New Roman';%
     set(axes_hl, 'fontsize', 10, ... %'fontname', font, ...
         'xgrid', 'on', 'ygrid', 'on', ...
         'XMinorGrid', 'off','YMinorGrid', 'off')

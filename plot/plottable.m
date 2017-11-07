@@ -1,4 +1,6 @@
-function ha = plottable(xt, gap, margin, nvar)
+function ha = plottable(xt, gap, margin, nvar, IsDel)
+%INPUTS
+%   IsDel : whether to delete redundant axes
 if nargin < 2, gap = [.13 .05]; end
 if nargin < 3, margin = [.05 .03, .08, .05]; end
 % gap    = [gap_height, gap_width]
@@ -30,7 +32,7 @@ Id_val = cellfun(@(x) ~any(strcmp(x, {'date', 'Year', 'DOY', 'd8Id'})), vars);
 vars = vars(:, Id_val);
 
 % figure out how many rows
-if nargin < 4, nvar = length(vars); end
+if nargin < 4 || isempty(nvar), nvar = length(vars); end
 
 ncol = ceil(sqrt(nvar));
 nrow = floor((nvar - 1)/ncol) + 1;
@@ -48,6 +50,9 @@ for i = 1:length(vars)
     datetick('x', 'yyyy/mm')
     title(vars{i}, 'Interpreter', 'none');
 end
-if nvar < ncol * nrow, delete(ha(nvar+1:ncol*nrow)); end
+
+if nargin < 5 || IsDel
+    if nvar < ncol * nrow, delete(ha(nvar+1:ncol*nrow)); end
+end
 % axes(ha(i+1));
 plotsetting;
