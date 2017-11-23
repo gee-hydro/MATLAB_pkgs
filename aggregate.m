@@ -31,13 +31,14 @@
 %   yidxagg:    row indices of aggregated values
 
 % Copyright 2013 Kelly Kearney
-function [yval, xcon, yidxagg] = aggregate(y, x, fun)
+function [yval, xcon, yidxagg] = aggregate(y, x, fun, cellTomat)
+if nargin <= 3, cellTomat = false; end
 
 if ~isequal(size(x,1), size(y,1))
     error('x and y must have same number of columns');
 end
 
-if nargin > 2
+if nargin > 2 && ~isempty(fun)
     applyfun = true;
 else
     applyfun = false;
@@ -77,16 +78,17 @@ if Y_IsTable
     y = y{:,:};
 end
 
-yagg = cell(size(yidxagg));
-for iy = 1:length(yagg)
+yval = cell(size(yidxagg));
+for iy = 1:length(yval)
     if applyfun
-        yagg{iy} = fun(y(yidxagg{iy},:));
+        yval{iy} = fun(y(yidxagg{iy},:));
     else
-        yagg{iy} = y(yidxagg{iy},:);
+        yval{iy} = y(yidxagg{iy},:);
     end 
 end
 
-yval = cell2mat(yagg);
+if cellTomat, yval = cell2mat(yval); end
+
 if Y_IsTable
     yval = array2table(yval, 'VariableNames', VarNames);
     if nargout == 1 

@@ -26,5 +26,6 @@ function plotsetting(xlab, ylab, axs)
     end
     
     line_hl = findobj(0, 'type', 'line');
-    set(line_hl, 'linewidth', 1)
+    set(line_hl, 'linewidth', 1.2)
+    box on
 end
