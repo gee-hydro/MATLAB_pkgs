@@ -54,5 +54,7 @@ end
 if nargin < 5 || IsDel
     if nvar < ncol * nrow, delete(ha(nvar+1:ncol*nrow)); end
 end
+
+set(ha(1:length(vars)), 'xlim', [min(xt.date), max(xt.date)]); %unify xlim of different subplot
 % axes(ha(i+1));
 plotsetting;

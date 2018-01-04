@@ -23,7 +23,9 @@ classdef makeVIDEO
             %             end
             obj.IsSave      = IsSave;
             if IsSave
-                obj.v           = VideoWriter(file);
+                obj.v           = VideoWriter(file, 'MPEG-4');
+                obj.v.Quality          = 100;
+%                 obj.v.CompressionRatio = 5;
                 obj.v.FrameRate = frmrate;
                 open(obj.v);
             end

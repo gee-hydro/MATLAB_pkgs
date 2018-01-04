@@ -1,28 +1,29 @@
 %NSE
-% Nash¨CSutcliffe model efficiency coefficient
+% Nash Sutcliffe model efficiency coefficient
 % E = NSE(Yobs, Ysim)
 %
 % Inputs:
 % Yobs  :observed values
 % Ysim  :simulated values
-function [NASH_coef, R2_coef, RMSE, pval, n] = NSE(Yobs, Ysim, IsPlot)
+function [NASH_coef, R2_coef, RMSE, pval, nobs] = NSE(Yobs, Ysim, IsPlot)
 
 % remove NAN values in Yobs and Ysim.
 %   If necessary negative values also need to remove.
-I = ~(isnan(Yobs) | isnan(Ysim));
+I = find(~(isnan(Yobs) | isnan(Ysim)));
 Ysim = Ysim(I);
 Yobs = Yobs(I);
 
+nobs      = length(I); % length of validate obs
 NASH_coef = 1 - sum((Ysim - Yobs).^2) ./ sum((Yobs - mean(Yobs)).^2);
+RMSE      = sqrt( sum((Ysim - Yobs).^2) /nobs );
 % bias = sum(Ysim - Yobs)/sum(I);
 
 if nargout > 1 || (nargin == 3 && IsPlot)
     [b,bint,r,rint,stats] = regress(Ysim, [Yobs, ones(size(Yobs))]); %#ok<ASGLU>
     % [b,bint,r,rint,stats] = regress(Ysim, [Yobs, ones(size(Yobs))]); %#ok<ASGLU>
     R2_coef = stats(1);
-    RMSE    = stats(4)^2;
+%     RMSE    = stats(4)^2;
     pval    = stats(3);  % pvalue
-    n       = length(I); % length of validate obs
 end
 % E = 1 - sum((Ypred - Yobs).^2) ./ sum((Ypred - mean(Yobs)).^2);
 % Determined coefficient is familiar with NSE. But the meaning was
@@ -30,8 +31,8 @@ end
 
 if nargin == 3 && IsPlot
     bias_coef = bias(Yobs, Ysim);
-    nobs = sum(I);
-    scatter(Yobs, Ysim, [], 'filled', 'MarkerFaceAlpha',1/20, ...
+%     nobs = sum(I);
+    scatter(Yobs, Ysim, [], 'filled', 'MarkerFaceAlpha',1/5, ...
         'MarkerFaceColor', [0.4940    0.1840    0.5560]);
     hold on; grid on; box on
     % 45deg line

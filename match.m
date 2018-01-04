@@ -1,5 +1,6 @@
 %MATCH
 %   MATCH function like R language
+%   find x in y, and return corresponding id
 function Id = match(x, y)
 n  = length(x);
 Id = nan(n, 1);

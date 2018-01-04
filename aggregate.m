@@ -10,7 +10,7 @@
 % This function groups together values of y, based on category values in x.
 % It performs more or less like accumaray(x,y,[a b]. @(x) {x}), except
 % allows x to be any value, not just indices, and y can have any number of
-% columns.  
+% columns.
 %
 % Input variables:
 %
@@ -20,7 +20,7 @@
 %               array of strings; n * 2, or 3 also OK.
 %
 %   fun:        function handle. If included, this function is applied to
-%               the grouped values of y 
+%               the grouped values of y
 %
 % Output variables:
 %
@@ -32,7 +32,7 @@
 
 % Copyright 2013 Kelly Kearney
 function [yval, xcon, yidxagg] = aggregate(y, x, fun, cellTomat)
-if nargin <= 3, cellTomat = false; end
+if nargin <= 3, cellTomat = true; end
 
 if ~isequal(size(x,1), size(y,1))
     error('x and y must have same number of columns');
@@ -84,14 +84,14 @@ for iy = 1:length(yval)
         yval{iy} = fun(y(yidxagg{iy},:));
     else
         yval{iy} = y(yidxagg{iy},:);
-    end 
+    end
 end
 
-if cellTomat, yval = cell2mat(yval); end
+if cellTomat, yval = cat(1, yval{:}); end
 
 if Y_IsTable
     yval = array2table(yval, 'VariableNames', VarNames);
-    if nargout == 1 
-        yval = [xcon, yval];
-    end
+end
+if nargout == 1
+    yval = [xcon, yval];
 end
