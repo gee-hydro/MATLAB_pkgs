@@ -20,7 +20,7 @@ else
 end
 
 %% plot
-if nargin == 3 && IsPlot
+if nargin == 3 && IsPlot && ~isnan(bias_coef)
     % 1. axis equal, 45deg line
     lim = [0, ceil(max(max(Yobs_new), 1))];
     set(gca, 'xlim', lim, 'ylim', lim)
