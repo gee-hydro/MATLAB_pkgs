@@ -15,8 +15,8 @@ if isempty(Yobs_new)
     b = nan(2, 1);
 else
     bias_coef = sum(Ysim_new - Yobs_new)/sum(Yobs_new); % bias
-    b         = polyfit(Yobs_new, Ysim_new, 1);     % linear regression coefficient
-    % slope     = b(1);                       % slope of lm
+    b         = polyfit(Yobs_new, Ysim_new, 1);   % linear regression coefficient [slope, interception]
+    % slope     = b(1);                           % slope of lm
 end
 
 %% plot
