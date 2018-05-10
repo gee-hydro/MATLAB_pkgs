@@ -1,4 +1,5 @@
 function cmaplot(img, brks)
+    
 global colors region
 
 range_clip = [25, 40, 73, 105];     % Tibetan Plateau

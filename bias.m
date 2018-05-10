@@ -2,7 +2,8 @@ function [bias_coef, b] = bias(Yobs, Ysim, IsPlot)
 
 if nargin == 3 && IsPlot
     plot(Yobs, Ysim, '.'); hold on; %scatters in subplot6
-    nobs = sum(~isnan(Yobs) | ~isnan(Ysim));
+    %nobs_max = sum(~isnan(Yobs) | ~isnan(Ysim));
+    nobs_min = sum(~isnan(Yobs) & ~isnan(Ysim));
 end
 
 I = ~(isnan(Yobs) | isnan(Ysim));
@@ -23,7 +24,7 @@ end
 if nargin == 3 && IsPlot && ~isnan(bias_coef)
     % 1. axis equal, 45deg line
     lim = [0, ceil(max(max(Yobs_new), 1))];
-    set(gca, 'xlim', lim, 'ylim', lim)
+%     set(gca, 'xlim', lim, 'ylim', lim)
     hold on; plot(lim, lim, 'k-'); grid on
     
     % 2. line regression line
@@ -33,6 +34,6 @@ if nargin == 3 && IsPlot && ~isnan(bias_coef)
     % linear regression info
     text(0.4, 0.2, sprintf('y = %.3fx %+.3f', b),...
         'Units', 'normalized', 'FontSize',12, 'FontName','Arial');
-    text(0.05, 0.8, sprintf('nobs = %d\nbias = %.3f', nobs, bias_coef), ...
+    text(0.05, 0.8, sprintf('nobs = %d\nbias = %.3f', nobs_min, bias_coef), ...
         'Units', 'normalized', 'FontSize',12, 'FontName','Arial');
 end

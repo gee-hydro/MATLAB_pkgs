@@ -7,12 +7,12 @@ classdef makeVIDEO
     %   video.close();
     properties
         v;
-        IsSave;
+        IsPlot;
     end
     
     methods
-        function obj = makeVIDEO(IsSave, file, frmrate)
-            if nargin < 1, IsSave = true;   end
+        function obj = makeVIDEO(IsPlot, file, frmrate)
+            if nargin < 1, IsPlot = true;   end
             if nargin < 2, file = 'my.avi'; end
             if nargin < 3, frmrate = 2;     end
             
@@ -21,9 +21,9 @@ classdef makeVIDEO
             %             if isempty(figs)
             %                 figure('pos', [564, 279, 836, 557]);
             %             end
-            obj.IsSave      = IsSave;
-            if IsSave
-                obj.v           = VideoWriter(file, 'MPEG-4');
+            obj.IsPlot      = IsPlot;
+            if IsPlot
+                obj.v           = VideoWriter(file); %, 'MPEG-4'
                 obj.v.Quality          = 100;
 %                 obj.v.CompressionRatio = 5;
                 obj.v.FrameRate = frmrate;
@@ -32,11 +32,11 @@ classdef makeVIDEO
         end
         
         function getframe(obj)
-            if obj.IsSave, writeVideo(obj.v, getframe(gcf)); end
+            if obj.IsPlot, writeVideo(obj.v, getframe(gcf)); end
         end
         
         function close(obj)
-            if obj.IsSave, close(obj.v); end
+            if obj.IsPlot, close(obj.v); end
         end
     end
 end

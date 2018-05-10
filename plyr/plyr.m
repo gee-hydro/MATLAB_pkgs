@@ -9,7 +9,11 @@ classdef plyr
         end
 
         %% Melt list to table
-        function df = melt_list(list, names)
+        %INPUTS:
+        % list : The cell variable you want to melt
+        % names: names for every list
+        % variable_name: The new add column name, default is name
+        function df = melt_list(list, names, variable_name)
             if nargin < 2, names = 1:length(list); end
             for i = 1:length(list)
                 xt = list{i};
@@ -21,6 +25,10 @@ classdef plyr
                 end
             end
             df = cat(1, list{:});
+            df.name = categorical(df.name); % as.factor
+            if nargin == 3
+               df.Properties.VariableNames{end} = variable_name;
+            end
         end
         
         % List consist of structures, and assume that every struct have the same
@@ -55,6 +63,13 @@ classdef plyr
             end
         end
         
+        function list = split_list(df, names)
+        n    = length(names);
+        list = cell(n, 1);
+        for i = 1:n
+            list{i} = df(contains(df.site, names{i}), :);
+        end
+        end
         % remove empty list in the input
         function out = rm_empty(list)
             I_rem = ~laply(list, @isempty);
