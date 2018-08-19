@@ -15,7 +15,7 @@ function ha = tight_subplot(Nh, Nw, gap, margin)
 %                   starting from upper left corner, going row-wise as in
 %                   going row-wise as in
 %
-%  Example: ha = tight_subplot(3,2,[.01 .03],[.1 .01, .01 .01])
+%  Example: ha = tight_subplot(3,2,[.01 .03],[1, 1, 1, 1]*0.05)
 %           for ii = 1:6; axes(ha(ii)); plot(randn(10,ii)); end
 %           set(ha(1:4),'XTickLabel',''); set(ha,'YTickLabel','')
 
