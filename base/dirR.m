@@ -10,7 +10,7 @@ function files = dirR(indir, pattern, fullName)
 
 if nargin == 1, pattern  = '.*';  end
 %   Check the Input indir variable
-if nargin > 1
+if nargin >= 1
     if indir(end) ~= '\'
         indir = [indir, '\'];
     end
