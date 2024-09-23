@@ -165,7 +165,7 @@ classdef ModWeights
             %% 1. robust weights are given by the bisquare function like lowess function
             %  Reference: https://cn.mathworks.com/help/curvefit/smoothing-data.html#bq_6ys3-3
             re = abs(Yobs - Ypred); %residual
-            sc = 6 * nanmedian(re);    %overall scale estimate
+            sc = 6 * tsnanmedian(re);    %overall scale estimate
             
             w = zeros(size(re));
             w(re < sc) = ( 1 - ( re(re < sc) / sc ).^2 ).^2; %NA values weighting will be zero
